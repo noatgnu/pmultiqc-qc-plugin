@@ -1,0 +1,4 @@
+pmultiqc>=0.0.39
+multiqc>=1.15
+pandas>=2.0.0
+click>=8.0.0

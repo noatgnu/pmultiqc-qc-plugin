@@ -1,0 +1,128 @@
+---
+plugin:
+  id: "pmultiqc-qc"
+  name: "Proteomics MultiQC Report"
+  description: "Generate comprehensive quality control reports for mass spectrometry proteomics data using pmultiqc"
+  version: "1.0.0"
+  author: "CauldronGO Team"
+  category: "utilities"
+  subcategory: "quality-control"
+  icon: "assessment"
+
+runtime:
+  environments: ["python"]
+  entrypoint: "pmultiqc_runner.py"
+
+inputs:
+  - name: "input_directory"
+    label: "Input Directory"
+    type: "directory"
+    required: true
+    description: "Directory containing proteomics analysis results. For DIA-NN: must contain report.tsv or report.parquet. For MaxQuant: must contain txt/ folder with results files."
+
+  - name: "platform"
+    label: "Analysis Platform"
+    type: "select"
+    required: true
+    options:
+      - "quantms"
+      - "maxquant"
+      - "diann"
+      - "proteobench"
+      - "mzid"
+      - "generic"
+    default: "generic"
+    description: "Select the proteomics analysis platform used to generate the data"
+
+  - name: "sdrf_file"
+    label: "SDRF File (Optional)"
+    type: "file"
+    required: false
+    accept: ".tsv,.txt"
+    description: "Optional SDRF (Sample and Data Relationship Format) file to include in analysis"
+
+  - name: "remove_decoy"
+    label: "Remove Decoy Peptides"
+    type: "boolean"
+    default: true
+    description: "Exclude decoy peptides from identification counts"
+
+  - name: "decoy_affix"
+    label: "Decoy Identifier"
+    type: "text"
+    default: "DECOY_"
+    description: "Prefix or suffix used to identify decoy proteins"
+
+  - name: "contaminant_affix"
+    label: "Contaminant Identifier"
+    type: "text"
+    default: "CONT_"
+    description: "Prefix or suffix used to identify contaminant proteins"
+
+  - name: "affix_type"
+    label: "Affix Type"
+    type: "select"
+    options:
+      - "prefix"
+      - "suffix"
+    default: "prefix"
+    description: "Whether decoy/contaminant identifiers are prefixes or suffixes"
+
+  - name: "condition_column"
+    label: "Condition Column (Optional)"
+    type: "text"
+    required: false
+    placeholder: "condition"
+    description: "Column name in SDRF file to use for grouping samples into conditions"
+
+  - name: "disable_table"
+    label: "Disable Large Tables"
+    type: "boolean"
+    default: false
+    description: "Skip protein/peptide tables for very large datasets to reduce report size"
+
+outputs:
+  - name: "qc_report"
+    path: "multiqc_report.html"
+    type: "file"
+    description: "Interactive HTML quality control report"
+    format: "html"
+
+  - name: "qc_data"
+    path: "multiqc_data"
+    type: "file"
+    description: "Directory containing raw QC metrics data"
+    format: "directory"
+    optional: true
+
+execution:
+  argsMapping:
+    input_directory: "--input_dir"
+    platform: "--platform"
+    sdrf_file: "--sdrf"
+    remove_decoy:
+      flag: "--remove_decoy"
+      passAsValue: true
+    decoy_affix: "--decoy_affix"
+    contaminant_affix: "--contaminant_affix"
+    affix_type: "--affix_type"
+    condition_column: "--condition"
+    disable_table:
+      flag: "--disable_table"
+      when: "true"
+
+  outputDir: "--output_dir"
+
+  requirements:
+    python: ">=3.10"
+    packages:
+      - "pmultiqc>=0.0.39"
+      - "multiqc>=1.15"
+      - "pandas>=2.0.0"
+      - "click>=8.0.0"
+
+example:
+  enabled: false
+  values:
+    platform: "maxquant"
+    remove_decoy: true
