@@ -2,7 +2,7 @@
 plugin:
   id: "pmultiqc-qc"
   name: "Proteomics MultiQC Report"
-  description: "Generate comprehensive quality control reports for mass spectrometry proteomics data using pmultiqc"
+  description: "Generate comprehensive quality control reports for mass spectrometry proteomics data using pmultiqc. Based on: Yue et al. (2025) bioRxiv 10.1101/2025.11.02.685980. Repository: https://github.com/bigbio/pmultiqc"
   version: "1.0.0"
   author: "CauldronGO Team"
   category: "utilities"

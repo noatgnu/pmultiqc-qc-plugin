@@ -7,7 +7,7 @@
 
 ## Description
 
-Generate comprehensive quality control reports for mass spectrometry proteomics data using pmultiqc
+Generate comprehensive quality control reports for mass spectrometry proteomics data using pmultiqc. Based on: Yue et al. (2025) bioRxiv 10.1101/2025.11.02.685980. Repository: https://github.com/bigbio/pmultiqc
 
 ## Runtime
 
