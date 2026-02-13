@@ -1,0 +1,87 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "title": "Proteomics MultiQC Report pipeline parameters",
+    "description": "Generate comprehensive quality control reports for mass spectrometry proteomics data using pmultiqc. Based on: Yue et al. (2025) bioRxiv 10.1101/2025.11.02.685980. Repository: https://github.com/bigbio/pmultiqc",
+    "type": "object",
+    "definitions": {
+        "plugin_parameters": {
+            "title": "Plugin parameters",
+            "description": "Parameters for the Proteomics MultiQC Report plugin.",
+            "type": "object",
+            "properties": {
+                "affix_type": {
+                    "type": "string",
+                    "description": "Whether decoy/contaminant identifiers are prefixes or suffixes",
+                    "default": "prefix"
+                },
+                "condition_column": {
+                    "type": "string",
+                    "description": "Column name in SDRF file to use for grouping samples into conditions"
+                },
+                "contaminant_affix": {
+                    "type": "string",
+                    "description": "Prefix or suffix used to identify contaminant proteins",
+                    "default": "CONT_"
+                },
+                "decoy_affix": {
+                    "type": "string",
+                    "description": "Prefix or suffix used to identify decoy proteins",
+                    "default": "DECOY_"
+                },
+                "disable_table": {
+                    "type": "boolean",
+                    "description": "Skip protein/peptide tables for very large datasets to reduce report size",
+                    "default": false
+                },
+                "input_directory": {
+                    "type": "string",
+                    "description": "Directory containing proteomics analysis results. For DIA-NN: must contain report.tsv or report.parquet. For MaxQuant: must contain txt/ folder with results files."
+                },
+                "platform": {
+                    "type": "string",
+                    "description": "Select the proteomics analysis platform used to generate the data",
+                    "default": "generic"
+                },
+                "remove_decoy": {
+                    "type": "boolean",
+                    "description": "Exclude decoy peptides from identification counts",
+                    "default": true
+                },
+                "sdrf_file": {
+                    "type": "string",
+                    "description": "Optional SDRF (Sample and Data Relationship Format) file to include in analysis",
+                    "format": "file-path"
+                }
+            }
+        }
+    },
+    "properties": {
+        "affix_type": {
+            "$ref": "#/definitions/plugin_parameters/properties/affix_type"
+        },
+        "condition_column": {
+            "$ref": "#/definitions/plugin_parameters/properties/condition_column"
+        },
+        "contaminant_affix": {
+            "$ref": "#/definitions/plugin_parameters/properties/contaminant_affix"
+        },
+        "decoy_affix": {
+            "$ref": "#/definitions/plugin_parameters/properties/decoy_affix"
+        },
+        "disable_table": {
+            "$ref": "#/definitions/plugin_parameters/properties/disable_table"
+        },
+        "input_directory": {
+            "$ref": "#/definitions/plugin_parameters/properties/input_directory"
+        },
+        "platform": {
+            "$ref": "#/definitions/plugin_parameters/properties/platform"
+        },
+        "remove_decoy": {
+            "$ref": "#/definitions/plugin_parameters/properties/remove_decoy"
+        },
+        "sdrf_file": {
+            "$ref": "#/definitions/plugin_parameters/properties/sdrf_file"
+        }
+    }
+}

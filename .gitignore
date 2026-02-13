@@ -137,3 +137,11 @@ Thumbs.db
 output/
 *.txt.bak
 test_output/
+
+# Nextflow
+work/
+.nextflow/
+.nextflow.log*
+.nextflow.pid
+results/
+
