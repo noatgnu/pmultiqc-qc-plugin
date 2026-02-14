@@ -29,28 +29,28 @@ process PMULTIQC_QC {
     ARG_LIST=()
 
     
-    # Mapping for platform
-    VAL="$platform"
-    if [ -n "\$VAL" ] && [ "\$VAL" != "null" ] && [ "\$VAL" != "[]" ]; then
-        ARG_LIST+=("--platform" "\$VAL")
-    fi
-    
-    # Mapping for sdrf_file
-    VAL="$sdrf_file"
-    if [ -n "\$VAL" ] && [ "\$VAL" != "null" ] && [ "\$VAL" != "[]" ]; then
-        ARG_LIST+=("--sdrf" "\$VAL")
-    fi
-    
     # Mapping for remove_decoy
     VAL="$remove_decoy"
     if [ -n "\$VAL" ] && [ "\$VAL" != "null" ] && [ "\$VAL" != "[]" ]; then
         ARG_LIST+=("--remove_decoy" "\$VAL")
     fi
     
+    # Mapping for decoy_affix
+    VAL="$decoy_affix"
+    if [ -n "\$VAL" ] && [ "\$VAL" != "null" ] && [ "\$VAL" != "[]" ]; then
+        ARG_LIST+=("--decoy_affix" "\$VAL")
+    fi
+    
     # Mapping for contaminant_affix
     VAL="$contaminant_affix"
     if [ -n "\$VAL" ] && [ "\$VAL" != "null" ] && [ "\$VAL" != "[]" ]; then
         ARG_LIST+=("--contaminant_affix" "\$VAL")
+    fi
+    
+    # Mapping for affix_type
+    VAL="$affix_type"
+    if [ -n "\$VAL" ] && [ "\$VAL" != "null" ] && [ "\$VAL" != "[]" ]; then
+        ARG_LIST+=("--affix_type" "\$VAL")
     fi
     
     # Mapping for disable_table
@@ -61,28 +61,28 @@ process PMULTIQC_QC {
         fi
     fi
     
-    # Mapping for input_directory
-    VAL="$input_directory"
+    # Mapping for platform
+    VAL="$platform"
     if [ -n "\$VAL" ] && [ "\$VAL" != "null" ] && [ "\$VAL" != "[]" ]; then
-        ARG_LIST+=("--input_dir" "\$VAL")
-    fi
-    
-    # Mapping for decoy_affix
-    VAL="$decoy_affix"
-    if [ -n "\$VAL" ] && [ "\$VAL" != "null" ] && [ "\$VAL" != "[]" ]; then
-        ARG_LIST+=("--decoy_affix" "\$VAL")
-    fi
-    
-    # Mapping for affix_type
-    VAL="$affix_type"
-    if [ -n "\$VAL" ] && [ "\$VAL" != "null" ] && [ "\$VAL" != "[]" ]; then
-        ARG_LIST+=("--affix_type" "\$VAL")
+        ARG_LIST+=("--platform" "\$VAL")
     fi
     
     # Mapping for condition_column
     VAL="$condition_column"
     if [ -n "\$VAL" ] && [ "\$VAL" != "null" ] && [ "\$VAL" != "[]" ]; then
         ARG_LIST+=("--condition" "\$VAL")
+    fi
+    
+    # Mapping for input_directory
+    VAL="$input_directory"
+    if [ -n "\$VAL" ] && [ "\$VAL" != "null" ] && [ "\$VAL" != "[]" ]; then
+        ARG_LIST+=("--input_dir" "\$VAL")
+    fi
+    
+    # Mapping for sdrf_file
+    VAL="$sdrf_file"
+    if [ -n "\$VAL" ] && [ "\$VAL" != "null" ] && [ "\$VAL" != "[]" ]; then
+        ARG_LIST+=("--sdrf" "\$VAL")
     fi
     
     python /app/pmultiqc_runner.py \
