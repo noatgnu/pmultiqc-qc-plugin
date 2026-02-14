@@ -29,18 +29,6 @@ process PMULTIQC_QC {
     ARG_LIST=()
 
     
-    # Mapping for input_directory
-    VAL="$input_directory"
-    if [ -n "\$VAL" ] && [ "\$VAL" != "null" ] && [ "\$VAL" != "[]" ]; then
-        ARG_LIST+=("--input_dir" "\$VAL")
-    fi
-    
-    # Mapping for affix_type
-    VAL="$affix_type"
-    if [ -n "\$VAL" ] && [ "\$VAL" != "null" ] && [ "\$VAL" != "[]" ]; then
-        ARG_LIST+=("--affix_type" "\$VAL")
-    fi
-    
     # Mapping for platform
     VAL="$platform"
     if [ -n "\$VAL" ] && [ "\$VAL" != "null" ] && [ "\$VAL" != "[]" ]; then
@@ -59,22 +47,10 @@ process PMULTIQC_QC {
         ARG_LIST+=("--remove_decoy" "\$VAL")
     fi
     
-    # Mapping for decoy_affix
-    VAL="$decoy_affix"
-    if [ -n "\$VAL" ] && [ "\$VAL" != "null" ] && [ "\$VAL" != "[]" ]; then
-        ARG_LIST+=("--decoy_affix" "\$VAL")
-    fi
-    
     # Mapping for contaminant_affix
     VAL="$contaminant_affix"
     if [ -n "\$VAL" ] && [ "\$VAL" != "null" ] && [ "\$VAL" != "[]" ]; then
         ARG_LIST+=("--contaminant_affix" "\$VAL")
-    fi
-    
-    # Mapping for condition_column
-    VAL="$condition_column"
-    if [ -n "\$VAL" ] && [ "\$VAL" != "null" ] && [ "\$VAL" != "[]" ]; then
-        ARG_LIST+=("--condition" "\$VAL")
     fi
     
     # Mapping for disable_table
@@ -83,6 +59,30 @@ process PMULTIQC_QC {
         if [ "\$VAL" = "true" ]; then
             ARG_LIST+=("--disable_table")
         fi
+    fi
+    
+    # Mapping for input_directory
+    VAL="$input_directory"
+    if [ -n "\$VAL" ] && [ "\$VAL" != "null" ] && [ "\$VAL" != "[]" ]; then
+        ARG_LIST+=("--input_dir" "\$VAL")
+    fi
+    
+    # Mapping for decoy_affix
+    VAL="$decoy_affix"
+    if [ -n "\$VAL" ] && [ "\$VAL" != "null" ] && [ "\$VAL" != "[]" ]; then
+        ARG_LIST+=("--decoy_affix" "\$VAL")
+    fi
+    
+    # Mapping for affix_type
+    VAL="$affix_type"
+    if [ -n "\$VAL" ] && [ "\$VAL" != "null" ] && [ "\$VAL" != "[]" ]; then
+        ARG_LIST+=("--affix_type" "\$VAL")
+    fi
+    
+    # Mapping for condition_column
+    VAL="$condition_column"
+    if [ -n "\$VAL" ] && [ "\$VAL" != "null" ] && [ "\$VAL" != "[]" ]; then
+        ARG_LIST+=("--condition" "\$VAL")
     fi
     
     python /app/pmultiqc_runner.py \

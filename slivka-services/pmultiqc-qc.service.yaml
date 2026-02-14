@@ -1,0 +1,113 @@
+# Slivka service configuration for pmultiqc-qc
+# Generated from Cauldron plugin format
+#
+# For file inputs that reference large databases (e.g., FASTA databases),
+# consider configuring them as environment variables pointing to shared storage:
+#   env:
+#     DATABASE_PATH: "${SLIVKA_HOME}/databases/uniref90.fasta"
+# Then reference in args as: arg: "--db=${DATABASE_PATH}"
+
+slivka-version: "0.8"
+name: pmultiqc-qc
+description: Generate comprehensive quality control reports for mass spectrometry proteomics data using pmultiqc. Based on: Yue et al. (2025) bioRxiv 10.1101/2025.11.02.685980. Repository: https://github.com/bigbio/pmultiqc
+author: CauldronGO Team
+version: "1.0.0"
+license: MIT
+classifiers:
+  - "Topic :: Scientific/Engineering :: Bio-Informatics"
+
+parameters:
+  input_directory:
+    name: "Input Directory"
+    description: "Directory containing proteomics analysis results. For DIA-NN: must contain report.tsv or report.parquet. For MaxQuant: must contain txt/ folder with results files."
+    type: text
+    required: true
+  platform:
+    name: "Analysis Platform"
+    description: "Select the proteomics analysis platform used to generate the data"
+    type: choice
+    required: true
+    default: generic
+    choices:
+      - quantms
+      - maxquant
+      - diann
+      - proteobench
+      - mzid
+      - generic
+  sdrf_file:
+    name: "SDRF File (Optional)"
+    description: "Optional SDRF (Sample and Data Relationship Format) file to include in analysis"
+    type: file
+    media-type: text/tab-separated-values
+  remove_decoy:
+    name: "Remove Decoy Peptides"
+    description: "Exclude decoy peptides from identification counts"
+    type: boolean
+    default: true
+  decoy_affix:
+    name: "Decoy Identifier"
+    description: "Prefix or suffix used to identify decoy proteins"
+    type: text
+    default: DECOY_
+  contaminant_affix:
+    name: "Contaminant Identifier"
+    description: "Prefix or suffix used to identify contaminant proteins"
+    type: text
+    default: CONT_
+  affix_type:
+    name: "Affix Type"
+    description: "Whether decoy/contaminant identifiers are prefixes or suffixes"
+    type: choice
+    default: prefix
+    choices:
+      - prefix
+      - suffix
+  condition_column:
+    name: "Condition Column (Optional)"
+    description: "Column name in SDRF file to use for grouping samples into conditions"
+    type: text
+  disable_table:
+    name: "Disable Large Tables"
+    description: "Skip protein/peptide tables for very large datasets to reduce report size"
+    type: boolean
+    default: false
+
+command:
+  - python
+  - pmultiqc_runner.py
+
+args:
+  input_directory:
+    arg: "--input_dir=$(value)"
+  platform:
+    arg: "--platform=$(value)"
+  sdrf_file:
+    arg: "--sdrf=$(value)"
+    symlink: "sdrf_file"
+  remove_decoy:
+    arg: "--remove_decoy=$(value)"
+  decoy_affix:
+    arg: "--decoy_affix=$(value)"
+  contaminant_affix:
+    arg: "--contaminant_affix=$(value)"
+  affix_type:
+    arg: "--affix_type=$(value)"
+  condition_column:
+    arg: "--condition=$(value)"
+  disable_table:
+    arg: "--disable_table"
+    condition: "$(value)"
+  _output_dir:
+    arg: "--output_dir=."
+
+outputs:
+  qc_report:
+    path: "multiqc_report.html"
+  qc_data:
+    path: "multiqc_data"
+
+execution:
+  runners:
+    default:
+      type: SlivkaQueueRunner
